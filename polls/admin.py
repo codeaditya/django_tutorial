@@ -15,6 +15,7 @@ class PollAdmin(admin.ModelAdmin):
                               'classes': ['collapse']}),
     ]
     inlines = [ChoiceInline]
+    list_display = ('question', 'pub_date', 'was_published_recently')
 
 
 admin.site.register(Poll, PollAdmin)
