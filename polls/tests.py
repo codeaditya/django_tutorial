@@ -19,7 +19,7 @@ def create_poll(question, days):
     )
 
 
-class PollViewTest(TestCase):
+class PollIndexViewTests(TestCase):
 
     def test_index_view_with_no_poll(self):
         """
