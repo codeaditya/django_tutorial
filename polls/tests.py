@@ -78,6 +78,27 @@ class PollViewTest(TestCase):
         )
 
 
+class PollDetailViewTests(TestCase):
+
+    def test_detail_view_with_a_future_poll(self):
+        """
+        The detail view of a poll with a pub_date in the future should
+        return a 404 not found.
+        """
+        future_poll = create_poll(question="Future poll.", days=5)
+        response = self.client.get(reverse('polls:detail', args=(future_poll.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_view_with_a_past_poll(self):
+        """
+        The detail view of a poll with a pub_date in the past should
+        display the poll's question.
+        """
+        past_poll = create_poll(question="Past poll.", days=-5)
+        response = self.client.get(reverse('polls:detail', args=(past_poll.id,)))
+        self.assertContains(response, past_poll.question, status_code=200)
+
+
 class PollMethodTest(TestCase):
 
     def test_was_published_recently_with_future_poll(self):
