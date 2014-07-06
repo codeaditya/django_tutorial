@@ -99,7 +99,7 @@ class PollDetailViewTests(TestCase):
         self.assertContains(response, past_poll.question, status_code=200)
 
 
-class PollMethodTest(TestCase):
+class PollMethodTests(TestCase):
 
     def test_was_published_recently_with_future_poll(self):
         """
