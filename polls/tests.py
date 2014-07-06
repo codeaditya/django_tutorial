@@ -99,6 +99,27 @@ class PollDetailViewTests(TestCase):
         self.assertContains(response, past_poll.question, status_code=200)
 
 
+class PollResultsViewTests(TestCase):
+
+    def test_results_view_with_a_future_poll(self):
+        """
+        The results view of a poll with a pub_date in the future should
+        return a 404 not found.
+        """
+        future_poll = create_poll(question="Future poll.", days=5)
+        response = self.client.get(reverse('polls:results', args=(future_poll.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_results_view_with_a_past_poll(self):
+        """
+        The results view of a poll with a pub_date in the past should
+        display the poll's question.
+        """
+        past_poll = create_poll(question="Past poll.", days=-5)
+        response = self.client.get(reverse('polls:results', args=(past_poll.id,)))
+        self.assertContains(response, past_poll.question, status_code=200)
+
+
 class PollMethodTests(TestCase):
 
     def test_was_published_recently_with_future_poll(self):
