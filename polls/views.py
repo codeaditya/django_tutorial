@@ -33,6 +33,12 @@ class ResultsView(generic.DetailView):
     model = Poll
     template_name = 'polls/results.html'
 
+    def get_queryset(self):
+        """
+        Exclude any polls that aren't published yet.
+        """
+        return Poll.objects.filter(pub_date__lte=timezone.now())
+
 
 def vote(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
