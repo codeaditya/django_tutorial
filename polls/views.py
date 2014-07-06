@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 
@@ -18,8 +18,9 @@ def detail(request, poll_id):
 
 
 def results(request, poll_id):
-    return HttpResponse("You are looking at the results of Poll {id}"
-                        "".format(id=poll_id))
+    poll = get_object_or_404(Poll, pk=poll_id)
+    context = dict(poll=poll)
+    return render(request, 'polls/results.html', context)
 
 
 def vote(request, poll_id):
