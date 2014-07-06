@@ -6,6 +6,18 @@ from django.test import TestCase
 from polls.models import Poll
 
 
+def create_poll(question, days):
+    """
+    Creates a poll with the given `question` published the given number
+    of `days` offset to now (negative for polls published in the past,
+    positive for polls that have yet to be published).
+    """
+    return Poll.objects.create(
+        question=question,
+        pub_date=timezone.now() + datetime.timedelta(days=days)
+    )
+
+
 class PollMethodTest(TestCase):
 
     def test_was_published_recently_with_future_poll(self):
